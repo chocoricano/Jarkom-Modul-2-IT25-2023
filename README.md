@@ -7,15 +7,15 @@
 - ANDYANA MUHANDHATUL NABILA - 5027211029
 - ANDREAS TIMOTIUS PARHORASAN SIHOMBING - 5027211019
 
-
 ## No 1
-Yudhistira akan digunakan sebagai DNS Master, Werkudara sebagai DNS Slave, Arjuna merupakan Load Balancer yang terdiri dari beberapa Web Server yaitu Prabakusuma, Abimanyu, dan Wisanggeni. Buatlah topologi dengan pembagian untuk kelompok IT25 adalah pada topologi 8 dan saya buat dan hasilnya sebagai berikut  
+
+Yudhistira akan digunakan sebagai DNS Master, Werkudara sebagai DNS Slave, Arjuna merupakan Load Balancer yang terdiri dari beberapa Web Server yaitu Prabakusuma, Abimanyu, dan Wisanggeni. Buatlah topologi dengan pembagian untuk kelompok IT25 adalah pada topologi 8 dan saya buat dan hasilnya sebagai berikut
 
 [![Whats-App-Image-2023-10-17-at-19-21-11-b4e6fe44.jpg](https://i.postimg.cc/d3Nxj5Dr/Whats-App-Image-2023-10-17-at-19-21-11-b4e6fe44.jpg)](https://postimg.cc/H85zp4wk)
 
-
 ## Soal no 2-8 "pengaturan GNS"
-saya buat script untuk me setup dulu semuanya nama scriptnya `dns_master.sh`untuk no 2-8 
+
+saya buat script untuk me setup dulu semuanya nama scriptnya `dns_master.sh`untuk no 2-8
 
 ```
 #!/bin/bash
@@ -42,11 +42,11 @@ EOL
 cat > /etc/bind/db.it25 <<EOL
 \$TTL    604800
 @       IN      SOA     it25.com. admin.it25.com. (
-                              3         
-                         604800       
-                          86400        
-                        2419200         
-                         604800 )       
+                              3
+                         604800
+                          86400
+                        2419200
+                         604800 )
 @               IN      NS      Yudhistira.it25.com.
 @               IN      NS      Werkudara.it25.com.
 Yudhistira      IN      A       192.168.2.4
@@ -90,6 +90,7 @@ Kode bash di atas digunakan untuk mengkonfigurasi layanan DNS (Domain Name Syste
 2. Kemudian, kode ini menghapus cache DNS dengan `rm -f /var/cache/bind/*` untuk membersihkan cache yang ada.
 
 3. Konfigurasi DNS lokal dimulai dengan menciptakan atau mengedit file "named.conf.local" pada direktori /etc/bind. Dalam file ini, dua zona DNS didefinisikan:
+
    - Zona "it25.com" adalah zona master yang merujuk pada file "db.it25". Hanya IP address 192.168.2.3 yang diizinkan untuk melakukan transfer zona.
    - Zona "1.168.192.in-addr.arpa" juga adalah zona master yang merujuk pada file "1.168.192.in-addr.arpa".
 
@@ -101,9 +102,8 @@ Kode bash di atas digunakan untuk mengkonfigurasi layanan DNS (Domain Name Syste
 
 7. Terakhir, kode mencetak pesan "Perbaikan konfigurasi DNS untuk Yudhistira selesai" untuk memberi tahu pengguna bahwa konfigurasi selesai dan layanan DNS telah dikonfigurasi dengan benar pada server "Yudhistira".
 
-
-
 ## Web server No2 dan 3
+
 Pada nomor 2 dan 3 memiliki persamaan yaitu deploy maka script nya sebagai berikut :
 
 ```
@@ -184,6 +184,7 @@ Selanjutnya, skrip membuat konfigurasi Nginx untuk situs web 'arjuna.it25.com', 
 Terakhir, skrip menggunakan perintah 'nginx -t' untuk memeriksa validitas konfigurasi Nginx. Perlu diingat bahwa beberapa baris dalam skrip yang di-comment mungkin merupakan komentar atau perintah yang dinonaktifkan sementara. Keseluruhan skrip ini adalah langkah-langkah yang kompleks dan perlu dieksekusi dengan hati-hati, serta pastikan bahwa izin yang diperlukan telah diberikan.
 
 ## no 9 - 10
+
 Pada nomor diminta untuk men-deploy yang berasal dari resource arjuna ke semua worker
 Berikut script workernya
 
@@ -239,6 +240,7 @@ nginx -t
 
 
 ```
+
 Pertama-tama, kode ini mengatur DNS dengan menambahkan tiga nameserver ke file /etc/resolv.conf. Kemudian, ia melakukan instalasi paket yang diperlukan, termasuk 'software-properties-common', 'unzip', dan 'nginx', serta PHP versi 7.0 beserta beberapa modul yang dibutuhkan.
 
 Setelah instalasi paket selesai, kode ini membuat konfigurasi Load Balancer dengan Nginx untuk situs web 'arjuna.it25.com'. Konfigurasi ini menentukan backend servers yang terdiri dari tiga alamat IP dan port yang berbeda, serta mengarahkan lalu lintas ke server-server tersebut.
@@ -302,10 +304,9 @@ nginx -t
 
 ```
 
-Konfigurasi Nginx  untuk membuat load balancer yang akan mengarahkan permintaan ke tiga server backend dengan alamat IP yang berbeda  pada port masing-masing (8001, 8002, dan 8003). Load balancer akan mendengarkan permintaan di port 80 lalu akan menangani permintaan untuk nama domain "arjuna.it25.com" dan "www.arjuna.it25.com". Setiap permintaan akan diarahkan ke salah satu server backend dalam grup "backend_servers" menggunakan metode load balancing round-robin.
+Konfigurasi Nginx untuk membuat load balancer yang akan mengarahkan permintaan ke tiga server backend dengan alamat IP yang berbeda pada port masing-masing (8001, 8002, dan 8003). Load balancer akan mendengarkan permintaan di port 80 lalu akan menangani permintaan untuk nama domain "arjuna.it25.com" dan "www.arjuna.it25.com". Setiap permintaan akan diarahkan ke salah satu server backend dalam grup "backend_servers" menggunakan metode load balancing round-robin.
 
 Setelah itu lakukan test dengan me `curl arjuna.it25.com` maka respon yang didapatkan akan berbeda beda dari 3 workernya
-
 
 ## no 11-17
 
@@ -375,6 +376,7 @@ echo "Setup selesai!"
 ```
 
 Kode bash ini adalah script konfigurasi yang bertujuan untuk menginstal dan mengonfigurasi sebuah server web Apache dengan modul PHP dan situs web "abimanyu.it25.com". Berikut adalah penjelassannya :
+
 1. Mengupdate repositori dengan perintah `apt-get update`.
 
 2. Menginstal server web Apache dengan perintah `apt-get install -y apache2`.
